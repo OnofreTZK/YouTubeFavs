@@ -41,5 +41,5 @@ app.*.symbols
 app.*.map.json
 
 # Sensible data
-youtube_favs/lib/api_data/
+api_key.dart
 
