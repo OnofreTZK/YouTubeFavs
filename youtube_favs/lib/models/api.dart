@@ -5,8 +5,13 @@ import '../api_data/api_key.dart';
 import 'dart:async';
 
 // http client
-import 'dart:dio';
+import 'package:dio/dio.dart';
 
+// Json convert
+import 'dart:convert';
+
+// Video obj
+import './video.dart';
 
 class Api {
     
@@ -32,11 +37,28 @@ class Api {
             }
         }
 
+        this._decodeSearch(response);
+
+    }
+
+    List<Video> _decodeSearch(Response response) {
+
         if( response.statusCode == 200 )
         {
             print(response.data);
-        }
 
+            var list_videos_string = json.decode(response.body);
+
+            List<Video> videos = list_videos_string["items"].map<Video>( (v) {
+                retun Video.fromJson(v);
+            }).toList();
+
+            return videos;
+
+            print(videos);
+        } else {
+            throw Exception("Failed to load videos!");
+        }
 
     }
 

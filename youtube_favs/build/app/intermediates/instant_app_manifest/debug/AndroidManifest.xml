@@ -8,24 +8,19 @@
     <uses-sdk
         android:minSdkVersion="16"
         android:targetSdkVersion="29" />
-    <!--
-         Flutter needs it to communicate with the running application
-         to allow setting breakpoints, to provide hot reload, etc.
-    -->
+
     <uses-permission android:name="android.permission.INTERNET" />
     <!--
-     io.flutter.app.FlutterApplication is an android.app.Application that
-         calls FlutterMain.startInitialization(this); in its onCreate method.
-         In most cases you can leave this as-is, but you if you want to provide
-         additional functionality it is fine to subclass or reimplement
-         FlutterApplication and put your custom class here.
+     Flutter needs it to communicate with the running application
+         to allow setting breakpoints, to provide hot reload, etc.
     -->
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:debuggable="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="youtube_favs" >
+        android:label="youtube_favs"
+        android:usesCleartextTraffic="true" >
         <activity
             android:name="com.example.youtube_favs.MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
@@ -61,7 +56,7 @@
             </intent-filter>
         </activity>
         <!--
-             Don't delete the meta-data below.
+ Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
         -->
         <meta-data
