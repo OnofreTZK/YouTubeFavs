@@ -7,6 +7,7 @@ import 'package:dio/dio.dart';
 import 'dart:convert';
 
 class DataSearch extends SearchDelegate<String> {
+
  
     @override
     List<Widget> buildActions(BuildContext context) { 
@@ -37,6 +38,9 @@ class DataSearch extends SearchDelegate<String> {
 
     @override
     Widget buildResults(BuildContext context) {
+        
+        Future.delayed(Duration.zero).then((_) =>close(context, query));
+
         return Container();
     }
 
@@ -59,7 +63,9 @@ class DataSearch extends SearchDelegate<String> {
                                     return ListTile(
                                         title: Text(snapshot.data[index]),
                                         leading: Icon(Icons.play_arrow),
-                                        onTap: (){},
+                                        onTap: () async {
+                                            close(context, snapshot.data[index]);
+                                        },
                                     ); // ListTile
                                 },
                                 itemCount: snapshot.data.length,
@@ -85,11 +91,15 @@ class DataSearch extends SearchDelegate<String> {
                                               "&q=${search}&format=5&alt=json");
 
             if( response.statusCode == 200 ) {
-                var suggestList = json.decode(response.data.toString())[1].map((s) {
+                
+                List<dynamic> json = new List<dynamic>
+                        .from(response.data);
+
+
+                var suggestList = json[1].map((s) {
                     return s[0];
                 }).toList();
 
-                print("teste");
                 return suggestList;
             } else {
                 throw Exception("Failed to load suggestions!");

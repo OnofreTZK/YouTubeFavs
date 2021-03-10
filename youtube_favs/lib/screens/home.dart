@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+// searchDelegate
 import '../delegates/data_search.dart';
+
+// VideosBloc
+import '../blocs/video_bloc.dart';
 
 class HomePage extends StatelessWidget {
 
@@ -24,9 +30,13 @@ class HomePage extends StatelessWidget {
                     ), // IconButton
                     IconButton(
                         icon: Icon(Icons.search),
-                        onPressed: () {
-                            showSearch(context: context, 
-                                       delegate: DataSearch());
+                        onPressed: () async {
+                            String result = showSearch(context: context, 
+                                       delegate: DataSearch()) as String ;
+                            if(result != null) {
+                                BlocProvider.of<VideosBloc>
+                                (context).inSearch.add(result);
+                            }
                         },
                     ), // IconButton
                 ], // <Widget>

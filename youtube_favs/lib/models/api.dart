@@ -47,10 +47,10 @@ class Api {
         {
             print(response.data);
 
-            var list_videos_string = json.decode(response.body);
+            var list_videos_string = json.decode(response.data);
 
             List<Video> videos = list_videos_string["items"].map<Video>( (v) {
-                retun Video.fromJson(v);
+                return Video.fromJson(v);
             }).toList();
 
             return videos;
