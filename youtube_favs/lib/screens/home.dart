@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+//import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:bloc_pattern/bloc_pattern.dart';
 
 // searchDelegate
 import '../delegates/data_search.dart';
@@ -11,6 +12,10 @@ class HomePage extends StatelessWidget {
 
     @override
     Widget build(BuildContext context) {
+
+        // Getting video bloc
+        final _video_bloc = BlocProvider.getBloc<VideosBloc>();
+        
         return Scaffold(
             appBar: AppBar(
                 title: Container(
@@ -31,11 +36,11 @@ class HomePage extends StatelessWidget {
                     IconButton(
                         icon: Icon(Icons.search),
                         onPressed: () async {
-                            String result = showSearch(context: context, 
+                            String result = await showSearch(context: context, 
                                        delegate: DataSearch()) as String ;
+                            print("RESULT:${result}");
                             if(result != null) {
-                                BlocProvider.of<VideosBloc>
-                                (context).inSearch.add(result);
+                                _video_bloc.inSearch.add(result);
                             }
                         },
                     ), // IconButton

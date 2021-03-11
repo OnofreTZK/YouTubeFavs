@@ -1,5 +1,6 @@
-// flutter_bloc
-import 'package:flutter_bloc/flutter_bloc.dart';
+// bloc
+//import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:bloc_pattern/bloc_pattern.dart';
 
 // api
 import '../models/api.dart';
@@ -10,15 +11,15 @@ import '../models/video.dart';
 // Asynchronous
 import 'dart:async';
 
-class VideosBloc {
+class VideosBloc extends BlocBase {
 
     Api api;
 
     List<Video> videos;
    
-    final StreamController _videosController = StreamController();
+    final StreamController _videosController = StreamController<List<Video>>();
 
-    final StreamController _searchController = StreamController();
+    final StreamController _searchController = StreamController<String>();
 
     // Getters
     Stream get outVideos => _videosController.stream;

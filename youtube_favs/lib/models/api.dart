@@ -21,6 +21,7 @@ class Api {
         Response response;
 
         try { 
+            print("SEARCH:${search}");
 
             response = await dio.get("https://www.googleapis.com/youtube/v3/"
                                      "search?part=snippet&q=${search}"
@@ -37,7 +38,7 @@ class Api {
             }
         }
 
-        this._decodeSearch(response);
+        return this._decodeSearch(response);
 
     }
 
@@ -47,15 +48,18 @@ class Api {
         {
             print(response.data);
 
-            var list_videos_string = json.decode(response.data);
+            Map<String, dynamic> json = new Map<String, dynamic>
+                    .from(response.data);
 
-            List<Video> videos = list_videos_string["items"].map<Video>( (v) {
+            print("TEST");
+
+            List<Video> videos = json["items"].map<Video>( (v) {
                 return Video.fromJson(v);
             }).toList();
 
+            print(videos);
             return videos;
 
-            print(videos);
         } else {
             throw Exception("Failed to load videos!");
         }
