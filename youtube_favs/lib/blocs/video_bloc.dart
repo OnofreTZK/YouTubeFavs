@@ -17,9 +17,11 @@ class VideosBloc extends BlocBase {
 
     List<Video> videos;
    
-    final StreamController _videosController = StreamController<List<Video>>();
+    final StreamController<List<Video>> _videosController =  
+            new StreamController<List<Video>>();
 
-    final StreamController _searchController = StreamController<String>();
+    final StreamController<String> _searchController = 
+            new StreamController<String>();
 
     // Getters
     Stream get outVideos => _videosController.stream;
@@ -28,7 +30,7 @@ class VideosBloc extends BlocBase {
 
     // Constructor
     VideosBloc(){
-        api = Api();
+        api = new Api();
 
         _searchController.stream.listen(_search);
     }

@@ -4,7 +4,7 @@ class Video {
     // Video main attributes
     final String id;
     final String title;
-    final String thumb;
+    final dynamic thumb;
     final String channel;
 
     // Constructor
@@ -18,10 +18,10 @@ class Video {
     factory Video.fromJson(Map<String, dynamic> json){
         
         return Video(
-            id: json["videoId"],
-            title: json["snippet"]["title"],
-            thumb: json["snippet"]["thumbnails"]["high"],
-            channel: json["snippet"]["channelTitle"],
+            id: json["id"]["videoId"] as String,
+            title: json["snippet"]["title"] as String,
+            thumb: json["snippet"]["thumbnails"]["high"] as dynamic,
+            channel: json["snippet"]["channelTitle"] as String,
         );
 
     }

@@ -53,11 +53,12 @@ class Api {
 
             print("TEST");
 
+
             List<Video> videos = json["items"].map<Video>( (v) {
+                print(v);
                 return Video.fromJson(v);
             }).toList();
 
-            print(videos);
             return videos;
 
         } else {
