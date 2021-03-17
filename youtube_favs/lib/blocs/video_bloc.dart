@@ -32,13 +32,16 @@ class VideosBloc extends BlocBase {
     VideosBloc(){
         api = new Api();
 
+        videos = new List<Video>();
+
         _searchController.stream.listen(_search);
+
     }
 
     // Methods
     void _search(String search) async {
         
-        videos = await api.search(search);
+        _videosController.sink.add(await api.search(search) as List<Video>);
     }
 
     // Destructor

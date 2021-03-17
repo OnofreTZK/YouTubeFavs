@@ -15,7 +15,7 @@ import './video.dart';
 
 class Api {
     
-    search(String search) async {
+    Future<List<Video>> search(String search) async {
         
         Dio dio = new Dio();
         Response response;
@@ -38,7 +38,7 @@ class Api {
             }
         }
 
-        return this._decodeSearch(response);
+        return _decodeSearch(response);
 
     }
 
@@ -46,16 +46,13 @@ class Api {
 
         if( response.statusCode == 200 )
         {
-            print(response.data);
 
             Map<String, dynamic> json = new Map<String, dynamic>
                     .from(response.data);
 
-            print("TEST");
 
 
             List<Video> videos = json["items"].map<Video>( (v) {
-                print(v);
                 return Video.fromJson(v);
             }).toList();
 

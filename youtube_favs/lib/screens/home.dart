@@ -8,6 +8,12 @@ import '../delegates/data_search.dart';
 // VideosBloc
 import '../blocs/video_bloc.dart';
 
+// VideoTile
+import '../components/video_tile.dart';
+
+// Video
+import '../models/video.dart';
+
 class HomePage extends StatelessWidget {
 
     @override
@@ -46,7 +52,22 @@ class HomePage extends StatelessWidget {
                     ), // IconButton
                 ], // <Widget>
             ), // AppBar
-            body: Container(),
+            backgroundColor: Colors.black,
+            body: StreamBuilder(
+                stream: _video_bloc.outVideos,
+                builder: (context, snapshot){
+                    if(snapshot.hasData){
+                        return ListView.builder(
+                            itemBuilder: (context, index){
+                                return VideoTile(snapshot.data[index]);
+                            },
+                            itemCount: snapshot.data.length,
+                        ); // ListView.builder
+                    } else {
+                        return Container();
+                    }
+                }, // builder
+            ), // StreamBuilder
         ); // Scaffold
     }
 }
