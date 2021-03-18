@@ -1,0 +1,6 @@
+framework module flutter_youtube {
+  umbrella header "flutter_youtube-umbrella.h"
+
+  export *
+  module * { export * }
+}
