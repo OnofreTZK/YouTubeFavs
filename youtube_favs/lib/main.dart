@@ -5,8 +5,9 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 // Screens
 import './screens/home.dart';
 
-// VideosBloc
+// Blocs
 import './blocs/video_bloc.dart';
+import './blocs/favorite_bloc.dart';
 
 void main() => runApp(YouTubeFavsApp());
 
@@ -16,7 +17,8 @@ class YouTubeFavsApp extends StatelessWidget {
     Widget build(BuildContext context) {
         return BlocProvider(
             blocs: [
-                Bloc((i) => VideosBloc()) ,
+                Bloc((i) => VideosBloc()),
+                Bloc((i) => FavoriteBloc()),
             ],
             child: MaterialApp(
                 title: 'YouTube Favorites',

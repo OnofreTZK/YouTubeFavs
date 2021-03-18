@@ -7,6 +7,7 @@ import '../delegates/data_search.dart';
 
 // VideosBloc
 import '../blocs/video_bloc.dart';
+import '../blocs/favorite_bloc.dart';
 
 // VideoTile
 import '../components/video_tile.dart';
@@ -33,7 +34,18 @@ class HomePage extends StatelessWidget {
                 actions: <Widget>[
                     Align( 
                         alignment: Alignment.center,
-                        child: Text("0"),
+                        child: StreamBuilder<Map<String, Video>>(
+                            stream: BlocProvider.getBloc<FavoriteBloc>()
+                            .outFav,
+                            initialData: {},
+                            builder: (context, snapshot) {
+                                if(snapshot.hasData) {
+                                    return Text('${snapshot.data.length}');
+                                } else {
+                                    return Text('0');
+                                }
+                            }
+                        ), //StreamBuilder
                     ), // Align
                     IconButton(
                         icon: Icon(Icons.star),
@@ -59,9 +71,24 @@ class HomePage extends StatelessWidget {
                     if(snapshot.hasData){
                         return ListView.builder(
                             itemBuilder: (context, index){
-                                return VideoTile(snapshot.data[index]);
+                                if( index < snapshot.data.length) {
+                                    return VideoTile(snapshot.data[index]);
+                                } else if(index > 1 ){
+                                    _video_bloc.inSearch.add(null);
+                                    return Container(
+                                        height: 40,
+                                        width: 40,
+                                        alignment: Alignment.center,
+                                        child: CircularProgressIndicator(
+                                            valueColor: AlwaysStoppedAnimation
+                                            <Color>(Colors.red),
+                                        ), // CircularProgressIndicator
+                                    ); // Container
+                                } else {
+                                    return Container();
+                                }
                             },
-                            itemCount: snapshot.data.length,
+                            itemCount: snapshot.data.length + 1,
                         ); // ListView.builder
                     } else {
                         return Container();

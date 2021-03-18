@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:bloc_pattern/bloc_pattern.dart';
 
 // Video Class
 import '../models/video.dart';
+
+// FavoriteBloc
+import '../blocs/favorite_bloc.dart';
 
 class VideoTile extends StatelessWidget {
 
@@ -11,6 +15,9 @@ class VideoTile extends StatelessWidget {
 
     @override
     Widget build(BuildContext context) {
+
+        final _favBloc = BlocProvider.getBloc<FavoriteBloc>();
+
         return Container(
             margin: EdgeInsets.symmetric(vertical: 4),
             child: Column(
@@ -52,6 +59,28 @@ class VideoTile extends StatelessWidget {
                                     ], //<Widget>
                                 ), // Column
                             ), // Expanded
+                            StreamBuilder<Map<String, Video>>(
+                                stream: _favBloc.outFav,
+                                initialData: {},
+                                builder: (context, snapshot) {
+                                    if(snapshot.hasData) {
+                                        return IconButton(
+                                            icon: Icon(snapshot.data
+                                                    .containsKey(video.id) 
+                                                    ? Icons.star 
+                                                    : Icons.star_border
+                                            ), // Icon
+                                            color: Colors.white,
+                                            iconSize: 38,
+                                            onPressed: () {
+                                                _favBloc.toggleFavorite(video);
+                                            }
+                                        );
+                                    } else {
+                                        return Container();
+                                    }
+                                }
+                            ), // StreamBuilder
                         ], // <Widget>
                     ), // Row
                 ], // <Widget>

@@ -39,7 +39,7 @@ class DataSearch extends SearchDelegate<String> {
     @override
     Widget buildResults(BuildContext context) {
         
-        Future.delayed(Duration.zero).then((_) =>close(context, query));
+        Future.delayed(Duration.zero).then((_) => close(context, query));
 
         return Container();
     }
@@ -84,7 +84,6 @@ class DataSearch extends SearchDelegate<String> {
         Response response;
         
         try {
-            print("Sending suggestions request");
             response = await dio.get("http://suggestqueries.google.com"
                                               "/complete/search?hl=en&ds=yt"
                                               "&client=youtube&hjson=t&cp=1"
