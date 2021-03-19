@@ -6,15 +6,39 @@ import '../models/video.dart';
 // Asynchronous
 import 'dart:async';
 
+// Shared Preferences to permantly save data.
+import 'package:shared_preferences/shared_preferences.dart';
+
+// JsonEncode
+import 'dart:convert';
+
+// The boss: rxdart
+import 'package:rxdart/rxdart.dart';
+
 
 class FavoriteBloc extends BlocBase {
 
     Map<String, Video> _favorites = {};
 
-    final StreamController<Map<String, Video>> _favController = 
-            StreamController<Map<String, Video>>.broadcast();
+    final _favController = BehaviorSubject<Map<String, Video>>
+            .seeded({});
     
     Stream<Map<String, Video>> get outFav => _favController.stream;
+
+    
+    FavoriteBloc() {
+        SharedPreferences.getInstance().then((prefs) { 
+            if(prefs.getKeys().contains("favorites")) {
+
+                _favorites = jsonDecode(prefs.getString("favorites"))
+                    .map((key, value) {
+                    return MapEntry(key, Video.fromJson(value));
+                }).cast<String, Video>();
+
+                _favController.sink.add(_favorites);
+            }
+        });        
+    }
 
 
     void toggleFavorite(Video video) {
@@ -26,10 +50,21 @@ class FavoriteBloc extends BlocBase {
 
         _favController.sink.add(_favorites);
 
+        _saveFav();
+
+    }
+
+    
+    void _saveFav(){
+        SharedPreferences.getInstance().then((prefs) {
+            prefs.setString("favorites", jsonEncode(_favorites));
+        });
     }
 
     @override
     void dispose() {
-
+        
+        super.dispose();
+        _favController.close();
     }
 }

@@ -55,6 +55,7 @@ class VideosBloc extends BlocBase {
     // Destructor
     @override
     void dispose() {
+        super.dispose();
         _videosController.close();
         _searchController.close();
     }

@@ -15,6 +15,9 @@ import '../components/video_tile.dart';
 // Video
 import '../models/video.dart';
 
+// FavoritesPage
+import './favorites.dart';
+
 class HomePage extends StatelessWidget {
 
     @override
@@ -49,7 +52,11 @@ class HomePage extends StatelessWidget {
                     ), // Align
                     IconButton(
                         icon: Icon(Icons.star),
-                        onPressed: () {},
+                        onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => FavoritesPage())
+                            );
+                        },
                     ), // IconButton
                     IconButton(
                         icon: Icon(Icons.search),
